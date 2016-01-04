@@ -96,6 +96,13 @@ public class BleDevicesActivity extends Activity implements AdapterView.OnItemCl
                 mDevices.add(bleDevice);
                 AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audio.playSoundEffect(Sounds.SUCCESS);
+
+                if (isLightSwitch(device)) {
+                    Intent intent = new Intent(this, BleServicesActivity.class);
+                    intent.putExtra(BleServicesActivity.EXTRA_DEVICE_ADDRESS, device.getAddress());
+                    startActivity(intent);
+                    mBluetoothAdapter.stopLeScan(this);
+                }
             } else {
                 int index = mDevices.indexOf(bleDevice);
                 mDevices.get(index).setRssi(rssi);
@@ -110,6 +117,10 @@ public class BleDevicesActivity extends Activity implements AdapterView.OnItemCl
             });
 
         }
+    }
+
+    private boolean isLightSwitch(BluetoothDevice bluetoothDevice) {
+        return "RFDuinoLight".equals(bluetoothDevice.getName());
     }
 
 }

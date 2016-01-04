@@ -62,7 +62,8 @@ public class BleServiceCardScrollAdapter extends CardScrollAdapter {
 
         BluetoothGattService service = getItem(position);
         holder.name.setText(Service.lookup(service.getUuid(), service.getUuid().toString()));
-        holder.type.setText(context.getResources().getQuantityString(R.plurals.ble_service_count_charas, service.getCharacteristics().size()));
+        int size = service.getCharacteristics().size();
+        holder.type.setText(context.getResources().getQuantityString(R.plurals.ble_service_count_charas, size, size));
 
         return convertView;
     }

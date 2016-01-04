@@ -15,6 +15,7 @@ import com.recursivepenguin.bluetoothmanagerforglass.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BleServicesActivity extends Activity implements AdapterView.OnItemClickListener {
 
@@ -211,6 +212,10 @@ public class BleServicesActivity extends Activity implements AdapterView.OnItemC
         mBluetoothGatt = null;
     }
 
+    private android.bluetooth.BluetoothGattCharacteristic getSwitchCharacteristic(BluetoothGatt gatt) {
+        return gatt.getService(UUID.fromString("00002220-0000-1000-8000-00805f9b34fb")).getCharacteristic(UUID.fromString("00002222-0000-1000-8000-00805f9b34fb"));
+    }
+
     private final BluetoothGattCallback mBroadcastGattCallback = new BluetoothGattCallback() {
 
         @Override
@@ -244,6 +249,9 @@ public class BleServicesActivity extends Activity implements AdapterView.OnItemC
                     }
                 });
 
+                BluetoothGattCharacteristic characterstic = getSwitchCharacteristic(gatt);
+                characterstic.setValue(new byte[]{1});
+                gatt.writeCharacteristic(characterstic);
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }

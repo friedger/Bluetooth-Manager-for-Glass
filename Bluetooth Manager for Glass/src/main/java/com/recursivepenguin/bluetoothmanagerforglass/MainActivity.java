@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        startActivity(new Intent(this, BleDevicesActivity.class));
     }
 
     @Override
